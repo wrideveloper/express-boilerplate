@@ -1,14 +1,7 @@
 const express = require('express')
 const app = express()
 const methodOverride = require('method-override')
-const mysql = require('mysql')
-
-const con = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'express-boilerplate'
-})
+const con = require('./config/database')
 
 app.set('views', __dirname + '/views')
 app.set('view engine', 'pug')
