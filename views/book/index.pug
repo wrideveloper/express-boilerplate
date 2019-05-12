@@ -1,0 +1,24 @@
+extends ../layout.pug
+
+block content
+  p Show all books
+
+  a(href="/book/create" class="btn btn-primary") Create new book
+  table(class="table")
+    tr
+      th No
+      th Title
+      th Pages
+      th Category
+      th(colspan=2) Action
+    each book, index in books
+      tr
+        td= index + 1
+        td= book.title
+        td= book.pages
+        td= book.category_name
+        td
+          a(href=`/book/${book.id}/edit` class="btn btn-warning") Edit
+        td
+          form(action=`/book/${book.id}?method=DELETE` method="POST")
+            input(type="submit" value="Delete" class="btn btn-danger")

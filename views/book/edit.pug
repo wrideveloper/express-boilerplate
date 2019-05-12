@@ -1,0 +1,21 @@
+extends ../layout.pug
+
+block content
+  p Edit book
+  form(action=`/book/${book.id}?method=PUT` method="POST")
+    div
+      label Title
+        input(type="text" name="title" value=book.title class="input")
+
+    div
+      label Pages
+        input(type="text" name="pages" value=book.pages class="input")
+    
+    div
+      label Category
+        select(name="category_id")
+          each category in categories
+            option(value=category.id selected=(book.category_id == category.id))= category.name
+    
+    div
+      input(type="submit" value="Submit" class="btn btn-success")

@@ -1,0 +1,11 @@
+extends ../layout.pug
+
+block content
+  p Edit category
+  form(action=`/category/${category.id}?method=PUT` method="POST")
+    div
+      label Name
+        input(type="text" name="name" value=category.name class="input")
+    
+    div
+      input(type="submit" value="Submit" class="btn btn-success")
