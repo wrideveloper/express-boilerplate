@@ -2,36 +2,34 @@ const Category = require('../models/Category')
 
 module.exports = {
   index: function(req, res) {
-    Category.find(function(err, result) {
-      res.json(result)
+    Category.findAll().then(function(rows) {
+      res.json(rows)
     })
   },
 
   show: function(req, res) {
-    Category.findById(req.params.id, function(err, result) {
-      res.json(result[0])
+    Category.findByPk(req.params.id).then(function(row) {
+      res.json(row)
     })
   },
 
   store: function(req, res) {
-    Category.create(req.body, function(err, result) {
-      Category.findById(result.insertId, function(err, result) {
-        res.json(result[0])
-      })
+    Category.create(req.body).then(function(row) {
+      res.json(row)
     })
   },
 
   update: function(req, res) {
-    Category.update(req.params.id, req.body, function(err, result) {
-      Category.findById(req.params.id, function(err, result) {
-        res.json(result[0])
-      })
+    Category.findByPk(req.params.id).then(function(row) {
+      row.update(req.body)
+      res.json(row)
     })
   },
 
   destroy: function(req, res) {
-    Category.destroy(req.params.id, function(err, result) {
-      res.json(result)
+    Category.findByPk(req.params.id).then(function(row) {
+      row.destroy()
+      res.json(row)
     })
   }
 }

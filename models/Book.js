@@ -1,54 +1,27 @@
-const con = require('../config/database')
+const sequelize = require('../config/database')
+const Sequalize = require('sequelize')
+const Category = require('./Category')
 
-module.exports = {
-  find: function(callback) {
-    con.query(
-      `SELECT
-        book.id, 
-        book.title, 
-        book.pages, 
-        book.category_id,
-        category.name AS category_name 
-        FROM book JOIN category ON category.id = book.category_id`,
-      callback
-    )
+const Book = sequelize.define(
+  'book',
+  {
+    id: {
+      type: Sequalize.INTEGER,
+      primaryKey: true
+    },
+    title: {
+      type: Sequalize.STRING
+    },
+    pages: {
+      type: Sequalize.INTEGER
+    },
+    category_id: {
+      type: Sequalize.INTEGER
+    }
   },
+  { tableName: 'book', timestamps: false }
+)
 
-  findById: function(id, callback) {
-    con.query(
-      `SELECT
-        book.id, 
-        book.title, 
-        book.pages, 
-        book.category_id,
-        category.name AS category_name 
-        FROM book JOIN category ON category.id = book.category_id
-        WHERE book.id = ${id}`,
-      callback
-    )
-  },
+Book.belongsTo(Category, { foreignKey: 'category_id' })
 
-  create: function(data, callback) {
-    const { title, pages, category_id } = data
-    con.query(
-      `INSERT INTO book SET title='${title}', pages=${pages}, category_id=${category_id}`,
-      callback
-    )
-  },
-
-  update: function(id, data, callback) {
-    const { title, pages, category_id } = data
-    con.query(
-      `UPDATE book SET 
-        title='${title}', 
-        pages=${pages},
-        category_id=${category_id}
-        WHERE id=${id}`,
-      callback
-    )
-  },
-
-  destroy: function(id, callback) {
-    con.query(`DELETE FROM book WHERE id=${id}`, callback)
-  }
-}
+module.exports = Book

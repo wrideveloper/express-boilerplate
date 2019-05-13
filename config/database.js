@@ -1,10 +1,8 @@
-const mysql = require('mysql')
+const Sequelize = require('sequelize')
 
-const con = mysql.createConnection({
+const sequelize = new Sequelize('express-boilerplate', 'root', '', {
   host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'express-boilerplate'
+  dialect: 'mysql'
 })
 
-module.exports = con
+module.exports = sequelize
