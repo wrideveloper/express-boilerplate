@@ -1,27 +1,12 @@
-const sequelize = require('../config/database')
-const Sequalize = require('sequelize')
-const Category = require('./Category')
+const mongoose = require('mongoose')
 
-const Book = sequelize.define(
-  'book',
-  {
-    id: {
-      type: Sequalize.INTEGER,
-      primaryKey: true
-    },
-    title: {
-      type: Sequalize.STRING
-    },
-    pages: {
-      type: Sequalize.INTEGER
-    },
-    category_id: {
-      type: Sequalize.INTEGER
-    }
-  },
-  { tableName: 'book', timestamps: false }
-)
+const bookSchema = mongoose.Schema({
+  title: String,
+  pages: Number,
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category'
+  }
+})
 
-Book.belongsTo(Category, { foreignKey: 'category_id' })
-
-module.exports = Book
+module.exports = mongoose.model('Book', bookSchema)

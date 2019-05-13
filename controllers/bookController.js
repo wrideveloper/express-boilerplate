@@ -1,19 +1,20 @@
 const Book = require('../models/Book')
-const Category = require('../models/Category')
 
 module.exports = {
   index: function(req, res) {
-    Book.findAll({ include: [{ model: Category }] }).then(function(rows) {
-      res.json(rows)
-    })
+    Book.find()
+      .populate('category')
+      .then(function(rows) {
+        res.json(rows)
+      })
   },
 
   show: function(req, res) {
-    Book.findByPk(req.params.id, { include: [{ model: Category }] }).then(
-      function(row) {
+    Book.findById(req.params.id)
+      .populate('category')
+      .then(function(row) {
         res.json(row)
-      }
-    )
+      })
   },
 
   store: function(req, res) {
@@ -23,15 +24,17 @@ module.exports = {
   },
 
   update: function(req, res) {
-    Book.findByPk(req.params.id).then(function(row) {
-      row.update(req.body)
+    Book.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    ).then(function(row) {
       res.json(row)
     })
   },
 
   destroy: function(req, res) {
-    Book.findByPk(req.params.id).then(function(row) {
-      row.destroy()
+    Book.findByIdAndDelete(req.params.id).then(function(row) {
       res.json(row)
     })
   }

@@ -1,8 +1,4 @@
-const Sequelize = require('sequelize')
-
-const sequelize = new Sequelize('express-boilerplate', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql'
+const mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost/express-boilerplate', {
+  useNewUrlParser: true
 })
-
-module.exports = sequelize

@@ -1,18 +1,7 @@
-const sequelize = require('../config/database')
-const Sequalize = require('sequelize')
+const mongoose = require('mongoose')
 
-const Category = sequelize.define(
-  'category',
-  {
-    id: {
-      type: Sequalize.INTEGER,
-      primaryKey: true
-    },
-    name: {
-      type: Sequalize.STRING
-    }
-  },
-  { tableName: 'category', timestamps: false }
-)
+const categorySchema = mongoose.Schema({
+  name: String
+})
 
-module.exports = Category
+module.exports = mongoose.model('Category', categorySchema)

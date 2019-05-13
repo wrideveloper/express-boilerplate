@@ -2,13 +2,13 @@ const Category = require('../models/Category')
 
 module.exports = {
   index: function(req, res) {
-    Category.findAll().then(function(rows) {
+    Category.find().then(function(rows) {
       res.json(rows)
     })
   },
 
   show: function(req, res) {
-    Category.findByPk(req.params.id).then(function(row) {
+    Category.findById(req.params.id).then(function(row) {
       res.json(row)
     })
   },
@@ -20,15 +20,17 @@ module.exports = {
   },
 
   update: function(req, res) {
-    Category.findByPk(req.params.id).then(function(row) {
-      row.update(req.body)
+    Category.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    ).then(function(row) {
       res.json(row)
     })
   },
 
   destroy: function(req, res) {
-    Category.findByPk(req.params.id).then(function(row) {
-      row.destroy()
+    Category.findByIdAndDelete(req.params.id).then(function(row) {
       res.json(row)
     })
   }
