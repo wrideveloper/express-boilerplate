@@ -1,11 +1,14 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const app = express();
+require("./config/database");
 
 //import middleware verify token
 const verifyToken = require("./verifyToken");
 
 app.use(express.json());
+app.use("/book", require("./routers/bookRouter"));
+app.use("/category", require("./routers/categoryRouter"));
 
 //authenticate client
 app.post("/login", (req, res) => {
